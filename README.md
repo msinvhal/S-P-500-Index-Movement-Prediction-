@@ -1,4 +1,4 @@
-# S-P-500-Index-Movement-Prediction-
+# S&P 500 Index Movement Prediction
 Predicting the Movement of the S&P 500 Using Time Series Modeling
 
 
