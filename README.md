@@ -4,24 +4,29 @@ Predicting the Movement of the S&P 500 Using Time Series Modeling
 
 **Predicting the S&P 500 Index**
 
-The Problem: 
+**The Problem:**
+
 Our project focuses on forecasting the S&P 500 index by using machine learning models. By leveraging historical values and incorporating a diverse array of both economic and non-economic predictors, we aim to unravel the complexities of the stock market and identify the key factors that significantly influence price movements. This endeavor will also shed light on how the market's dynamics have evolved over the past four decades, providing insights into its current nature and potential future trends.
 
-Motivation:
+**Motivation:**
+
 The motivation behind this topic is our group’s interest in financial markets and desire to explore the dynamics of the S&P 500 to make informed future investment decisions. While the S&P 500 is a proven long-term investment, we recognize the need to understand various factors, both apparent and subtle, that could impact our portfolio. Leveraging our machine learning skills, we sought to create an accurate predictive model for positive investment returns in the S&P 500. Concurrently, we aimed to grasp the methodologies used by financial firms for forecasting stock prices, furthering our knowledge in financial market analysis and prediction.
 
-Datasets: 
+**Datasets:**
+
 A decent amount of our model's feature data was primarily sourced from the extensive archives of the Federal Reserve Economic Data (FRED), managed by the Federal Reserve Bank of St. Louis. FRED's database, encompassing over 800,000 economic time series, provided us with the flexibility to select datasets that aligned with our specific requirements in terms of granularity and time frame. We focused on integrating a diverse array of economic indicators, including interest rates, inflation rates, and GDP. Additionally, we broadened our dataset by incorporating non-traditional, yet potentially influential factors, such as humidity levels and cloud coverage in New York City that have been studied to potentially impact the mood of investors in the stock market. Furthermore, we considered the exchange rates of the US between countries like Australia and the UK. This data aggregation strategy ensured a robust and multi-dimensional analysis, enhancing the model's ability to capture complex market dynamics. 
 The features we finally chose to use in our model were US unemployment rates, US interest rates, US gas prices, US consumer spending, US to Australia exchange rate, US federal surplus, US federal employees amount, US consumer price index, US interest rate spread, US personal savings rate, NYC humidity, NYC cloud cover, and US to UK exchange rates.
 
-Cleaning the Data: 
-	Our data collection process focused on acquiring information with daily granularity, extending as far back as the earliest available records, often predating 1980. To align this data with our model's requirements, we implemented a filtration step, ensuring all data fell within our specified date range. Although we had data from the 1980s, we chose to keep our training set to range from January 2010 to August 2020. The testing set ranged from September 2020 to August 2023. This was necessary to ensure that recent predictions weren’t influenced by larger past macroeconomic trends. We wanted to capture much of the 2010s’ post-recession boom in the S&P 500’s prices. The granularity was adjusted to include monthly data (eg, averages for weather metrics over a  month).
+**Cleaning the Data:**
+
+Our data collection process focused on acquiring information with daily granularity, extending as far back as the earliest available records, often predating 1980. To align this data with our model's requirements, we implemented a filtration step, ensuring all data fell within our specified date range. Although we had data from the 1980s, we chose to keep our training set to range from January 2010 to August 2020. The testing set ranged from September 2020 to August 2023. This was necessary to ensure that recent predictions weren’t influenced by larger past macroeconomic trends. We wanted to capture much of the 2010s’ post-recession boom in the S&P 500’s prices. The granularity was adjusted to include monthly data (eg, averages for weather metrics over a  month).
 A critical step involved the consolidation of various features into a single, comprehensive dataframe. We achieved this via various pandas operations and dataframe manipulations. It is important to note that the S&P 500 data is exclusively available for market-open days. Saturday trading has been possible since the 1980s. Consequently, when extracting monthly data on the first day of each month, we encountered instances where these dates fell on market days that were closed. In such cases, we adjusted these data points to still reflect the current ‘price’ of the index (often, the closing price of the previous day) to maintain consistency with the market's operational schedule, ensuring the integrity and relevance of our dataset for the predictive model.
 
-Feature Selection:
+**Feature Engineering:**
+
 We performed feature selection by a couple different tactics, one being the metric of variance inflation factor (VIF) to determine which features had the most significant impact on the model’s performance. When reviewing VIF scores, features above VIF 10 significantly impact the model. To prevent overfitting, we started removing the highest-scoring features due to their elevated VIFs. We sequentially removed the features “Open, High, and Low” because they had the highest VIFs. Next, we saw that “Consumer Spending” and “CPI” both had very high VIFs. A key visualization which we used showed a representation of the correlations between the features – a heatmap of collinearity (Appendix B). We observed from the correlation matrix that “CPI” and “Consumer Spending” had a correlation of 0.99. We believed it was a good idea to remove one of them because of their high correlation and high VIFs. We then sequentially removed the remaining features with a VIF above 10 (Appendix C). This resulted in enhanced model interpretability and reduced multicollinearity, making the features in the model more independent and conducive to accurate and reliable predictions.
 
-Regression Techniques:
+**Regression Techniques:**
  
 Ordinary Least Squares Regression:
 Overview: The OLS regression aims to provide a simple linear relationship that minimizes the sum of squared differences between predicted and actual S&P 500 prices, offering insights into the potential influence of economic indicators, financial variables, and meteorological factors on the stock market's performance.
@@ -54,7 +59,8 @@ Overview: The multivariate LSTM was the next model we considered. LSTM represent
 Analysis: Deciphering and understanding hyperparameters of the LSTM function was proved to be a challenging, yet extremely interesting task. Hyperparameters included LSTM layers and units, dropout rate, epochs, batch size, optimizer, and the loss function (MSE selected). We selected fairly standard and ‘stock’ suggestions for hyperparameters while tuning and experimenting accordingly. There were marginal differences between various versions of the code but we saw that the RMSE hovered around 225, with our model’s final value being approximately 225.05.
 
 
-Evaluating The Models:
+**Evaluating The Models:**
+
 To evaluate the models we used R2 for training performance and OSR2, RMSE, and MAE for test set performance. While R2 and OSR2 assess how well the model explains the variance of the data, RMSE and MAE provide insight into the average error magnitude. Relying on a single metric could be misleading. A combination of these metrics ensures a balanced view of the model's performance, as shown in the table below.
 
 
@@ -68,15 +74,16 @@ While all models have high in-sample R2 values, suggesting good fits to the trai
 
 
 
-Overall Impact of Project:
- 	Through this project, we learned the difficulties that go into making financial predictions and forecasting the performance of the financial markets, and the different factors that cause these difficulties to arise. Initially, our models demonstrated promising results, indicated by high R2 values, which suggested a strong fit to the dataset. However, further evaluation revealed certain limitations. The presence of high MAE and RMSE values raised concerns about the precision of these models. We learned that the consequences of potential overfitting on models, especially in all the regression models, could be disastrous when exploring unseen data. We tried to reduce bias, but received a large variance. We were not confident in regression.
+**Overall Impact of Project:**
+
+Through this project, we learned the difficulties that go into making financial predictions and forecasting the performance of the financial markets, and the different factors that cause these difficulties to arise. Initially, our models demonstrated promising results, indicated by high R2 values, which suggested a strong fit to the dataset. However, further evaluation revealed certain limitations. The presence of high MAE and RMSE values raised concerns about the precision of these models. We learned that the consequences of potential overfitting on models, especially in all the regression models, could be disastrous when exploring unseen data. We tried to reduce bias, but received a large variance. We were not confident in regression.
 A factor for the poor performance in the linear regression models was the overarching effects of inflation over the period of study, and the unprecedented economic impact of the COVID-19 pandemic. These elements collectively led to us understanding that the dynamic and often unpredictable nature of the S&P 500 is a great challenge in supervised learning.  
 The most effective models for predicting S&P 500 performance were the time series models, especially the ARIMA model, marginally superior to LSTM. Their superior adaptability to out-of-sample data and resilience to outliers and major disruptive events, such as the COVID-19 pandemic, marked it as the most accurate among all the models we tested. The ARIMA and LSTM models’ robustness and reliability in capturing the temporal dynamics of the S&P 500 was interesting for us to capture. It stands out as the most appropriate model for navigating the complexities and uncertainties of the stock market, thereby facilitating informed and prudent financial decisions. We got a lot more confident in our models after we implemented time series. We underestimated the value of adding multiple new modeling techniques to our project. We were proven wrong! 
 
-Negative Impact?
+**Negative Impact?**
 In our group’s opinion, the possibility of negative impacts is not as high as we originally thought. One of the merits of an open and free market is the accessibility to public information. As long as advanced time series’ models are not used on sensitive and insider information to achieve ‘illegal’ forecasts, our project seems to be ethically sound, as all the information is public!
 
-Expanding Scope? 
+**Expanding Scope? **
 We would love to explore this topic by investigating and implementing even more time series models to better understand this topic. Iterating through various hyperparameter values, doing cross validation, and other tried-and-tested supervised learning techniques to build an efficient S&P predictor would be an extremely interesting project. We learned a lot through this project anyway and would love to delve further into the world of time series.
 
 
@@ -85,7 +92,7 @@ We would love to explore this topic by investigating and implementing even more 
 
 
 
-Appendix A:
+**Appendix A:**
 
 Data links:
 S&P 500 Historical Data: https://www.investing.com/indices/us-spx-500-historical-data 
